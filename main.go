@@ -1,7 +1,10 @@
 package main
 
-import "gin/gweb"
+import (
+	"gin/gorm"
+)
 
 func main() {
-	gweb.WebStart()
+	//gweb.WebStart()
+	gorm.Gorm()
 }
