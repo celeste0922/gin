@@ -15,11 +15,26 @@ type PostParams struct {
 	Sex  bool   `json:"sex" uri:"sex" form:"sex"`
 }
 
+func middel() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("one...before func")
+		c.Next()
+		fmt.Println("one...after func")
+	}
+}
+func middelTwo() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("two...before func")
+		c.Next()
+		fmt.Println("two...after func")
+	}
+}
+
 func main() {
 	r := gin.Default() //携带基础中间件启动
-	v1 := r.Group("/path")
+	v1 := r.Group("/path").Use(middel(), middelTwo())
 	v2 := r.Group("/test")
-	v1.GET("/:id", func(c *gin.Context) {
+	v1.GET("get/:id", func(c *gin.Context) {
 		id := c.Param("id")
 		user := c.DefaultQuery("user", "celeste")
 		pwd := c.Query("pwd")
@@ -29,26 +44,27 @@ func main() {
 			"pwd":  pwd,
 		})
 	})
-	v1.POST("", func(c *gin.Context) {
+	v1.POST("post", func(c *gin.Context) {
 		user := c.DefaultPostForm("user", "celeste")
 		pwd := c.PostForm("pwd")
+		fmt.Println("post=====>", user, pwd)
 		c.JSON(http.StatusOK, gin.H{
 			"user": user,
 			"pwd":  pwd,
 		})
 	})
-	v1.DELETE("/:id", func(c *gin.Context) {
+	v1.DELETE("delete/:id", func(c *gin.Context) {
 		id := c.Param("id")
 		c.JSON(http.StatusOK, gin.H{
 			"id": id,
 		})
 	})
-	v1.PUT("", func(c *gin.Context) {
+	v1.PUT("put", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "Hello World")
 	})
 	//=======================================================================
 	//shouldBindJSON
-	v2.POST("/bind", func(c *gin.Context) {
+	v2.POST("bind", func(c *gin.Context) {
 		var params PostParams
 		err := c.ShouldBindJSON(&params)
 		if err != nil {
@@ -65,7 +81,7 @@ func main() {
 		}
 	})
 	//shouldBindUri
-	v2.POST("/bind/:name/:age/:sex", func(c *gin.Context) {
+	v2.POST("bind/:name/:age/:sex", func(c *gin.Context) {
 		var params PostParams
 		err := c.ShouldBindUri(&params)
 		if err != nil {
@@ -82,7 +98,7 @@ func main() {
 		}
 	})
 	//shouldBindWithQuery
-	v2.POST("/bind/query", func(c *gin.Context) {
+	v2.POST("bind/query", func(c *gin.Context) {
 		var params PostParams
 		err := c.ShouldBindQuery(&params)
 		if err != nil {
@@ -99,7 +115,7 @@ func main() {
 		}
 	})
 	//upload
-	v2.POST("/upload", func(c *gin.Context) {
+	v2.POST("upload", func(c *gin.Context) {
 		//form, _ := c.MultipartForm()
 		//files := form.File["files"] //多文件
 		file, _ := c.FormFile("file")
