@@ -13,6 +13,11 @@ type HelleWord struct {
 	Age  int
 }
 
+type User struct {
+	gorm.Model
+	Name string `gorm:"primary_key;column:user_id;type:varchar(100);not null'"`
+}
+
 func Gorm() {
 	db, err := gorm.Open("mysql", "root:celeste0922@(127.0.0.1:3306)/ginclass?charset=utf8mb4&parseTime=True&loc=Local")
 
@@ -44,6 +49,22 @@ func Gorm() {
 
 		//fmt.Println(hello)
 		//fmt.Println(hello2)
+	}
+	defer db.Close()
+}
+
+// 自定义表名
+func (u User) TableName() string {
+	return "user"
+}
+
+func MyTableName() {
+	db, err := gorm.Open("mysql", "root:celeste0922@(127.0.0.1:3306)/ginclass?charset=utf8mb4&parseTime=True&loc=Local")
+	if err != nil {
+		panic(err)
+	} else {
+		fmt.Println("success")
+		db.AutoMigrate(&User{}) //自动建表
 	}
 	defer db.Close()
 }
