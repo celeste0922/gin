@@ -1,10 +1,11 @@
 package main
 
-import "gin/gorm"
+import "gin/jwt"
 
 func main() {
 	//gweb.WebStart()
 	//gorm.Gorm()
 	//gorm.MyTableName()
-	gorm.ManyToMany()
+	//gorm.ManyToMany()
+	jwt.Jwt()
 }
