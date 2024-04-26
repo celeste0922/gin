@@ -48,5 +48,4 @@ func Jwt() {
 		//fmt.Println("token===>", token.Claims.(*jwt.MapClaims))
 		fmt.Println(token.Claims.(*MyClaims))
 	}
-
 }

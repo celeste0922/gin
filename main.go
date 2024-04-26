@@ -1,11 +1,12 @@
 package main
 
-import "gin/jwt"
+import "gin/myCasbin"
 
 func main() {
 	//gweb.WebStart()
 	//gorm.Gorm()
 	//gorm.MyTableName()
 	//gorm.ManyToMany()
-	jwt.Jwt()
+	//jwt.Jwt()
+	myCasbin.CasBinByGorm()
 }
