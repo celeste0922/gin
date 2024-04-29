@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package hello_grpc;
+
+option go_package="./;golang";
+
+message Req{
+  string message = 1;
+}
+
+message Res{
+  string message = 1;
+}
+
+service HelloGRPC{
+  rpc SayHi(Req) returns(Res);
+}
+
