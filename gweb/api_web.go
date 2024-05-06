@@ -15,6 +15,7 @@ type PostParams struct {
 	Sex  bool   `json:"sex" uri:"sex" form:"sex"`
 }
 
+// 中间件函数，洋葱模型
 func middel() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		fmt.Println("one...before func")
